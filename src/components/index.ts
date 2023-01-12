@@ -1,1 +1,2 @@
-export { Select } from './Select';
+export { Select } from './Select/Select';
+export { Switch } from './Switch/Switch';
