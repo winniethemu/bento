@@ -35,6 +35,7 @@ const ControlWithStatus = styled.span<Pick<SwitchProps, 'on'>>`
   top: -1px;
   left: -1px;
   transform: ${props => props.on ? 'translate(50%)' : 'none'};
+  transition: transform 0.25s ease-out;
   justify-content: space-between;
   align-items: center;
 `;
