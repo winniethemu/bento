@@ -6,11 +6,19 @@ import { compact } from '../../util';
 
 interface SwitchProps extends React.HTMLAttributes<HTMLInputElement> {
   label: string;
-  on?: boolean;
+  labelPosition?: 'before' | 'after';
   name?: string;
+  on?: boolean;
+  onChange?: () => void;
+  showLabel?: boolean;
 }
 
 const Wrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const Container = styled.span`
   display: flex;
   position: relative;
   width: fit-content;
@@ -57,9 +65,13 @@ const CheckboxInput = styled.input`
   display: none;
 `;
 
+const Label = styled.label`
+  padding: 0 1rem;
+`;
+
 export const Switch = (props: SwitchProps) => {
-  const { label, name, on } = props;
-  const [isOn, setIsOn] = useState(on || false);
+  const { label, labelPosition = 'before', showLabel = true, name, on, onChange } = props;
+  const [isOn, setIsOn] = useState(!!on);
 
   const inputProps = compact({
     name,
@@ -67,17 +79,27 @@ export const Switch = (props: SwitchProps) => {
   });
 
   const handleClick = () => {
-    setIsOn(!isOn);
+    const value = !isOn;
+    setIsOn(value);
+    onChange && onChange();
   }
 
   return (
-    <Wrapper onClick={handleClick}>
-      <Base on={isOn} />
-      <ControlWithStatus on={isOn}>
-        <Control on={isOn} />
-        <Status />
-      </ControlWithStatus>
-      <CheckboxInput type="checkbox" {...inputProps} />
+    <Wrapper>
+      {showLabel && labelPosition === 'before' && (
+        <Label>{label}</Label>
+      )}
+      <Container onClick={handleClick}>
+        <Base on={isOn} />
+        <ControlWithStatus on={isOn}>
+          <Control on={isOn} />
+          <Status />
+        </ControlWithStatus>
+        <CheckboxInput type="checkbox" {...inputProps} />
+      </Container>
+      {showLabel && labelPosition === 'after' && (
+        <Label>{label}</Label>
+      )}
     </Wrapper>
   );
 };
