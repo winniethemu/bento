@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../../const';
+
+import { useMobile } from '../../hook';
 
 interface Option {
   label: string;
@@ -11,16 +12,16 @@ interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
   options: Option[];
 }
 
-const Wrapper = styled.button`
-  background: ${colors.neutral[600]};
-  border: none;
-  border-radius: 8px;
-`;
+export const NativeSelect = (props: SelectProps) => {
+  return null;
+};
 
 export const Select = (props: SelectProps) => {
+  const isMobile = useMobile();
   return (
-    <Wrapper>
-      Medium
-    </Wrapper>
+    <React.Fragment>
+      {/* isMobile && <MobileSelect /> */}
+      {!isMobile && <NativeSelect {...props} />}
+    </React.Fragment>
   );
 };
