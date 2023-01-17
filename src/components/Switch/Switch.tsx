@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { colors } from '../../const';
-import { compact } from '../../util';
+import { compact, themeGradient } from '../../util';
 
 interface SwitchProps extends React.HTMLAttributes<HTMLInputElement> {
   label: string;
@@ -31,8 +31,10 @@ const Base = styled.span<Pick<SwitchProps, 'on'>>`
   width: 48px;
   height: 24px;
   border-radius: 24px;
-  background-color: ${
-    props => props.on ? colors.radiant.light : colors.radiant.dark
+  background: ${
+    props => props.on ?
+      themeGradient(180, colors.theme.radiant[100], colors.theme.radiant[200]) :
+      colors.theme.radiant[800]
   };
 `;
 

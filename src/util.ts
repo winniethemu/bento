@@ -9,3 +9,7 @@ export const compact = (obj: Record<string, any>) => {
   return result;
 };
 /* eslint-enable */
+
+export const themeGradient = (angle: number, startColor: string, endColor: string) => {
+  return `linear-gradient(${angle}deg, ${startColor} 0%, ${endColor} 100%)`;
+};
