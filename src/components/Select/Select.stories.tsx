@@ -9,7 +9,11 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 const Template: ComponentStory<typeof Select> = (args) => <Select {...args} />;
-export const Primary = Template.bind({});
-Primary.args = {
-  options: [],
+export const Default = Template.bind({});
+Default.args = {
+  options: [
+    { label: 'Small', value: 'sm' },
+    { label: 'Medium', value: 'md' },
+    { label: 'Large', value: 'lg' },
+  ],
 };

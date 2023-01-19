@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaAngleDown } from 'react-icons/fa';
+import { HiSelector } from 'react-icons/hi';
 
 import { colors } from '../../const';
 import { SelectProps } from './Select';
@@ -8,69 +8,67 @@ import { themeGradient } from '../../util';
 
 const Wrapper = styled.div`
   display: inline-block;
-`;
-
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #FCF5F5;
-  border: 1px solid ${colors.neutral[500]};
-  border-radius: 12px;
-  padding: 4px 6px;
-
+  position: relative;
   &:hover {
     cursor: pointer;
   }
 `;
 
-const ButtonText = styled.span`
+const Menu = styled.ol<{ open: boolean }>`
+  box-sizing: border-box;
+  background-color: #FCF5F5;
+  border: 1px solid ${colors.neutral[500]};
+  border-radius: 6px;
+  list-style: none;
+  padding: 4px 6px;
+  margin: 0;
+  overflow: auto;
+  max-height: ${props => props.open ? '480px' : '42px'};
+  transition: max-height 0.25s ease-in;
+`;
+
+const MenuItem = styled.li<{ key: string }>`
   min-width: 200px;
   text-align: left;
   font-size: 16px;
+  line-height: 32px;
   padding-left: 6px;
 `;
 
-const ButtonIcon = styled.span`
+const Icon = styled.span`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
+  position: absolute;
+  width: 34px;
   height: 32px;
-  color: white;
-  border-radius: 8px;
+  align-items: center;
   background: ${themeGradient(180, colors.theme.radiant.coral, colors.theme.radiant.pink)};
-`;
-
-const Menu = styled.div`
+  border-radius: 6px;
+  color: white;
+  justify-content: center;
+  right: 6px;
+  top: 5px;
 `;
 
 export const NativeSelect = (props: SelectProps) => {
-  // should contain a <input value={value}>
+  const { options, name } = props;
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(options[0].value);
 
   const handleToggle = () => {
     setOpen(!open);
   };
 
+  // should contain a <input value={value}>
   return (
-    <Wrapper>
-      <Button onClick={handleToggle}>
-        <ButtonText>Medium</ButtonText>
-        <ButtonIcon>
-          <FaAngleDown size={20} />
-        </ButtonIcon>
-      </Button>
-      {open && (
-        <Menu>
-          <ol>
-            <li>Small</li>
-            <li>Medium</li>
-            <li>Large</li>
-          </ol>
-        </Menu>
-      )}
+    <Wrapper onClick={handleToggle}>
+      <Menu open={open}>
+        {options.map((option) => {
+          return (open || option.value === value) ?
+            <MenuItem key={option.value as string}>{option.label}</MenuItem> :
+            null;
+        })}
+      </Menu>
+      {!open && <Icon><HiSelector size={26} /></Icon>}
     </Wrapper>
   );
 };
