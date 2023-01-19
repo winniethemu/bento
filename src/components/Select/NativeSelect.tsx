@@ -8,6 +8,7 @@ import { Option, SelectProps } from './Select';
 interface Props {
   key: string;
   open: boolean;
+  selected: boolean;
 }
 
 const Wrapper = styled.div`
@@ -21,7 +22,7 @@ const Wrapper = styled.div`
 const Menu = styled.ol<Pick<Props, 'open'>>`
   box-sizing: border-box;
   background-color: #FCF5F5;
-  border: 1px solid ${colors.neutral[500]};
+  border: 1px solid ${colors.neutral[100]};
   border-radius: 6px;
   list-style: none;
   padding: 4px 6px;
@@ -32,19 +33,20 @@ const Menu = styled.ol<Pick<Props, 'open'>>`
 `;
 
 const MenuItem = styled.li<Props>`
-  min-width: 200px;
-  text-align: left;
-  font-size: 16px;
-  line-height: 32px;
-  padding-left: 6px;
   border-radius: 6px;
+  font-size: 14px;
+  font-weight: ${props => props.selected ? 'bold' : 'normal'};
+  line-height: 32px;
+  min-width: 200px;
+  padding-left: 6px;
+  text-align: left;
 
   &:hover {
-    background-color: ${props => props.open ? colors.neutral[500] : ''};
+    background-color: ${props => props.open ? colors.neutral[100] : ''};
   }
 `;
 
-const Icon = styled.span`
+const MenuIcon = styled.span`
   display: flex;
   position: absolute;
   height: 32px;
@@ -76,12 +78,13 @@ export const NativeSelect = (props: SelectProps) => {
               key={option.value as string}
               open={open}
               onClick={() => handleSelect(option.value)}
+              selected={option.value === value}
             >
               {option.label}
             </MenuItem> : null;
         })}
       </Menu>
-      {!open && <Icon><HiSelector size={26} /></Icon>}
+      {!open && <MenuIcon><HiSelector size={26} /></MenuIcon>}
       <input type="hidden" name={name} value={value.toString()} />
     </Wrapper>
   );
