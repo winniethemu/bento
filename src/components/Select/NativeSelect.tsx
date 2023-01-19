@@ -6,6 +6,11 @@ import { colors } from '../../const';
 import { SelectProps } from './Select';
 import { themeGradient } from '../../util';
 
+interface Props {
+  key: string;
+  open: boolean;
+}
+
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
@@ -14,7 +19,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Menu = styled.ol<{ open: boolean }>`
+const Menu = styled.ol<Pick<Props, 'open'>>`
   box-sizing: border-box;
   background-color: #FCF5F5;
   border: 1px solid ${colors.neutral[500]};
@@ -27,26 +32,27 @@ const Menu = styled.ol<{ open: boolean }>`
   transition: max-height 0.25s ease-in;
 `;
 
-const MenuItem = styled.li<{ key: string }>`
+const MenuItem = styled.li<Props>`
   min-width: 200px;
   text-align: left;
   font-size: 16px;
   line-height: 32px;
   padding-left: 6px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: ${props => props.open ? colors.neutral[500] : ''};
+  }
 `;
 
 const Icon = styled.span`
   display: flex;
   position: absolute;
-  width: 34px;
   height: 32px;
   align-items: center;
-  background: ${themeGradient(180, colors.theme.radiant.coral, colors.theme.radiant.pink)};
-  border-radius: 6px;
-  color: white;
-  justify-content: center;
   right: 6px;
   top: 5px;
+  color: ${colors.theme.radiant.coral};
 `;
 
 export const NativeSelect = (props: SelectProps) => {
@@ -64,7 +70,7 @@ export const NativeSelect = (props: SelectProps) => {
       <Menu open={open}>
         {options.map((option) => {
           return (open || option.value === value) ?
-            <MenuItem key={option.value as string}>{option.label}</MenuItem> :
+            <MenuItem key={option.value as string} open={open}>{option.label}</MenuItem> :
             null;
         })}
       </Menu>
