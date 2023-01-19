@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { HiSelector } from 'react-icons/hi';
 
 import { colors } from '../../const';
-import { SelectProps } from './Select';
-import { themeGradient } from '../../util';
+import { Option, SelectProps } from './Select';
 
 interface Props {
   key: string;
@@ -64,17 +63,26 @@ export const NativeSelect = (props: SelectProps) => {
     setOpen(!open);
   };
 
-  // should contain a <input value={value}>
+  const handleSelect = (val: Option['value']) => {
+    setValue(val);
+  }
+
   return (
     <Wrapper onClick={handleToggle}>
       <Menu open={open}>
         {options.map((option) => {
           return (open || option.value === value) ?
-            <MenuItem key={option.value as string} open={open}>{option.label}</MenuItem> :
-            null;
+            <MenuItem
+              key={option.value as string}
+              open={open}
+              onClick={() => handleSelect(option.value)}
+            >
+              {option.label}
+            </MenuItem> : null;
         })}
       </Menu>
       {!open && <Icon><HiSelector size={26} /></Icon>}
+      <input type="hidden" name={name} value={value.toString()} />
     </Wrapper>
   );
 };

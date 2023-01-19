@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useMobile } from '../../hook';
 import { NativeSelect } from './NativeSelect';
 
-interface Option {
+export interface Option {
   label: string;
   value: string | number | boolean;
 }
