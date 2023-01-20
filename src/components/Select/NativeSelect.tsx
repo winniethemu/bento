@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import findIndex from 'lodash/findIndex';
 import styled from 'styled-components';
 import { HiSelector } from 'react-icons/hi';
 
 import { colors } from '../../const';
 import { Option, SelectProps } from './Select';
 
-interface Props {
-  key: string;
+interface MenuItemProps {
+  data: Option;
+  focus: boolean;
+  handleSelect: (v: Option['value']) => void;
   open: boolean;
   selected: boolean;
 }
@@ -19,7 +22,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Menu = styled.ol<Pick<Props, 'open'>>`
+const StyledMenu = styled.ol<{ open: boolean }>`
   box-sizing: border-box;
   background-color: #FCF5F5;
   border: 1px solid ${colors.neutral[100]};
@@ -32,7 +35,11 @@ const Menu = styled.ol<Pick<Props, 'open'>>`
   transition: max-height 0.25s ease-in;
 `;
 
-const MenuItem = styled.li<Props>`
+const StyledMenuItem = styled.li<{
+  focus: boolean;
+  open: boolean;
+  selected: boolean
+}>`
   border-radius: 6px;
   font-size: 16px;
   font-weight: ${props => props.selected ? 'bold' : 'normal'};
@@ -40,13 +47,14 @@ const MenuItem = styled.li<Props>`
   min-width: 200px;
   padding-left: 6px;
   text-align: left;
+  background-color: ${props => props.focus ? colors.neutral[100] : ''};
 
   &:hover {
     background-color: ${props => props.open ? colors.neutral[100] : ''};
   }
 `;
 
-const MenuIcon = styled.span`
+const StyledMenuIcon = styled.span`
   display: flex;
   position: absolute;
   height: 32px;
@@ -58,10 +66,26 @@ const MenuIcon = styled.span`
 
 const validKeys = [' ', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape'];
 
-export const NativeSelect = (props: SelectProps) => {
+const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
+  const { data, focus, handleSelect, open, selected } = props;
+
+  return (
+    <StyledMenuItem
+      focus={open && focus}
+      open={open}
+      onClick={() => handleSelect(data.value)}
+      selected={selected}
+    >
+      {data.label}
+    </StyledMenuItem>
+  )
+};
+
+export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
   const { options, name } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(options[0].value);
+  const [focusIndex, setFocusIndex] = useState(-1);
 
   const handleToggle = () => {
     setOpen(!open);
@@ -75,22 +99,27 @@ export const NativeSelect = (props: SelectProps) => {
     if (validKeys.indexOf(event.key) < 0) return;
     if (event.key === 'Escape') return;
     if (!open) {
-      //TODO: set focus
+      const index = findIndex(options, (option) => option.value === value);
+      setFocusIndex(index);
       setOpen(true);
+      return;
     }
-  };
-
-  const handleKeySelect = (event: React.KeyboardEvent, index: number) => {
-    if (!open || validKeys.indexOf(event.key) < 0) return;
 
     switch(event.key) {
       case 'ArrowUp':
+        const next = focusIndex - 1;
+        if (next < 0) {
+          setFocusIndex(options.length-1);
+        } else {
+          setFocusIndex(next);
+        }
         break;
       case 'ArrowDown':
+        setFocusIndex((focusIndex+1) % options.length);
         break;
       case ' ':
       case 'Enter':
-        setValue(options[index].value);
+        setValue(options[focusIndex].value);
       default:
         setOpen(false);
     }
@@ -98,21 +127,20 @@ export const NativeSelect = (props: SelectProps) => {
 
   return (
     <Wrapper onClick={handleToggle}>
-      <Menu open={open} tabIndex={0} onKeyDown={handleKeyOpen}>
+      <StyledMenu open={open} tabIndex={0} onKeyDown={handleKeyOpen}>
         {options.map((option, index) => {
           return (open || option.value === value) ?
             <MenuItem
+              data={option}
+              focus={focusIndex === index}
               key={option.value as string}
+              handleSelect={handleSelect}
               open={open}
-              onClick={() => handleSelect(option.value)}
-              onKeyDown={(e) => handleKeySelect(e, index)}
               selected={option.value === value}
-            >
-              {option.label}
-            </MenuItem> : null;
+            /> : null;
         })}
-      </Menu>
-      {!open && <MenuIcon><HiSelector size={26} /></MenuIcon>}
+      </StyledMenu>
+      {!open && <StyledMenuIcon><HiSelector size={26} /></StyledMenuIcon>}
       <input type="hidden" name={name} value={value.toString()} />
     </Wrapper>
   );
