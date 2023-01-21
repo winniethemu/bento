@@ -1,24 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
 
-interface Option {
+import { useMobile } from '../../hook';
+import { NativeSelect } from './NativeSelect';
+
+export interface Option {
   label: string;
   value: string | number | boolean;
 }
 
-interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
   options: Option[];
+  name?: string;
 }
 
 export const Select = (props: SelectProps) => {
+  const isMobile = useMobile();
   return (
-    <select>
-      {props.options.map((option) => {
-        return (
-          <option key={option.label} value={option.value?.toString()}>
-            {option.label}
-          </option>
-        );
-      })}
-    </select>
+    <React.Fragment>
+      {/* isMobile && <MobileSelect /> */}
+      {!isMobile && <NativeSelect {...props} />}
+    </React.Fragment>
   );
 };
