@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import findIndex from 'lodash/findIndex';
 import styled from 'styled-components';
 import { HiSelector } from 'react-icons/hi';
@@ -68,6 +68,11 @@ const validKeys = [' ', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape'];
 
 const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
   const { data, focus, handleSelect, open, selected } = props;
+  const ref = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (focus) ref.current?.focus();
+  }, [focus]);
 
   return (
     <StyledMenuItem
@@ -75,6 +80,8 @@ const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
       open={open}
       onClick={() => handleSelect(data.value)}
       selected={selected}
+      ref={ref}
+      tabIndex={focus ? 0 : -1}
     >
       {data.label}
     </StyledMenuItem>
@@ -95,9 +102,12 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
     setValue(val);
   }
 
-  const handleKeyOpen = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     if (validKeys.indexOf(event.key) < 0) return;
-    if (event.key === 'Escape') return;
+    if (event.key === 'Escape') {
+      setOpen(false);
+      return;
+    }
     if (!open) {
       const index = findIndex(options, (option) => option.value === value);
       setFocusIndex(index);
@@ -127,7 +137,7 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
 
   return (
     <Wrapper onClick={handleToggle}>
-      <StyledMenu open={open} tabIndex={0} onKeyDown={handleKeyOpen}>
+      <StyledMenu open={open} tabIndex={0} onKeyDown={handleKeyDown}>
         {options.map((option, index) => {
           return (open || option.value === value) ?
             <MenuItem
