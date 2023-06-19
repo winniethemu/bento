@@ -32,9 +32,9 @@ const Base = styled.span<Pick<SwitchProps, 'on'>>`
   height: 24px;
   border-radius: 24px;
   background: ${
-    props => props.on ?
-      themeGradient(180, colors.theme.radiant.coral, colors.theme.radiant.pink) :
-      colors.theme.radiant.darkred
+    props => props.on
+      ? themeGradient(180, colors.radiant.coral, colors.radiant.pink)
+      : colors.neutral[100]
   };
 `;
 

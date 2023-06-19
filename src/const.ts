@@ -27,14 +27,12 @@ export const colors = {
     brown:      'rgb(162, 132, 94)',
     gray:       'rgb(142, 142, 147)',
   },
-  theme: {
-    radiant: {
-      offwhite: 'rgb(252, 245, 245)',
-      coral:    'rgb(255, 131, 81)',
-      pink:     'rgb(238, 109, 134)',
-      red:      'rgb(255, 72, 64)',
-      salmon:   'rgb(241, 74, 89)',
-      darkred:  'rgb(152, 43, 43)',
-    },
+  radiant: {
+    offwhite:   'rgb(252, 245, 245)',
+    coral:      'rgb(255, 131, 81)',
+    pink:       'rgb(238, 109, 134)',
+    red:        'rgb(255, 72, 64)',
+    salmon:     'rgb(241, 74, 89)',
+    darkred:    'rgb(152, 43, 43)',
   },
 };

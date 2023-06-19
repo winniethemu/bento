@@ -61,7 +61,7 @@ const StyledMenuIcon = styled.span`
   align-items: center;
   right: 6px;
   top: 5px;
-  color: ${colors.theme.radiant.coral};
+  color: ${colors.radiant.coral};
 `;
 
 const validKeys = [' ', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape'];
