@@ -4,6 +4,7 @@ import { Select } from './Select';
 
 const meta: Meta<typeof Select> = {
   title: 'Example/Select',
+  tags: ['data-entry'],
   component: Select,
 } satisfies Meta<typeof Select>;
 

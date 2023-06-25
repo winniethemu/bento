@@ -4,6 +4,7 @@ import { Switch } from './Switch';
 
 const meta: Meta<typeof Switch> = {
   title: 'Example/Switch',
+  tags: ['data-entry'],
   component: Switch,
 } satisfies Meta<typeof Switch>;
 
@@ -12,6 +13,6 @@ type Story = StoryObj<typeof Switch>;
 
 export const Primary: Story = {
   args: {
-    label: 'default',
+    label: 'Default',
   },
 };
