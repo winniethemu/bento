@@ -17,6 +17,8 @@ interface MenuItemProps {
 const Wrapper = styled.div`
   display: inline-block;
   position: relative;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
   &:hover {
     cursor: pointer;
   }
@@ -24,33 +26,33 @@ const Wrapper = styled.div`
 
 const StyledMenu = styled.ol<{ open: boolean }>`
   box-sizing: border-box;
-  background-color: #FCF5F5;
+  background-color: #fcf5f5;
   border: 1px solid ${colors.neutral[100]};
   border-radius: 6px;
   list-style: none;
   padding: 4px 6px;
   margin: 0;
   overflow: auto;
-  max-height: ${props => props.open ? '480px' : '42px'};
+  max-height: ${(props) => (props.open ? '480px' : '42px')};
   transition: max-height 0.25s ease-in;
 `;
 
 const StyledMenuItem = styled.li<{
   focus: boolean;
   open: boolean;
-  selected: boolean
+  selected: boolean;
 }>`
   border-radius: 6px;
   font-size: 16px;
-  font-weight: ${props => props.selected ? 'bold' : 'normal'};
+  font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
   line-height: 32px;
   min-width: 200px;
   padding-left: 6px;
   text-align: left;
-  background-color: ${props => props.focus ? colors.neutral[100] : ''};
+  background-color: ${(props) => (props.focus ? colors.neutral[100] : '')};
 
   &:hover {
-    background-color: ${props => props.open ? colors.neutral[100] : ''};
+    background-color: ${(props) => (props.open ? colors.neutral[100] : '')};
   }
 `;
 
@@ -85,7 +87,7 @@ const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
     >
       {data.label}
     </StyledMenuItem>
-  )
+  );
 };
 
 export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
@@ -100,7 +102,7 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
 
   const handleSelect = (val: Option['value']) => {
     setValue(val);
-  }
+  };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (validKeys.indexOf(event.key) < 0) return;
@@ -115,23 +117,29 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
       return;
     }
 
-    switch(event.key) {
-      case 'ArrowUp':
+    switch (event.key) {
+      case 'ArrowUp': {
         const next = focusIndex - 1;
         if (next < 0) {
-          setFocusIndex(options.length-1);
+          setFocusIndex(options.length - 1);
         } else {
           setFocusIndex(next);
         }
         break;
-      case 'ArrowDown':
-        setFocusIndex((focusIndex+1) % options.length);
+      }
+      case 'ArrowDown': {
+        setFocusIndex((focusIndex + 1) % options.length);
         break;
+      }
       case ' ':
-      case 'Enter':
+      case 'Enter': {
         setValue(options[focusIndex].value);
-      default:
         setOpen(false);
+        break;
+      }
+      default: {
+        setOpen(false);
+      }
     }
   };
 
@@ -139,7 +147,7 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
     <Wrapper onClick={handleToggle}>
       <StyledMenu open={open} tabIndex={0} onKeyDown={handleKeyDown}>
         {options.map((option, index) => {
-          return (open || option.value === value) ?
+          return open || option.value === value ? (
             <MenuItem
               data={option}
               focus={focusIndex === index}
@@ -147,10 +155,15 @@ export const NativeSelect: React.FC<SelectProps> = (props: SelectProps) => {
               handleSelect={handleSelect}
               open={open}
               selected={option.value === value}
-            /> : null;
+            />
+          ) : null;
         })}
       </StyledMenu>
-      {!open && <StyledMenuIcon><HiSelector size={26} /></StyledMenuIcon>}
+      {!open && (
+        <StyledMenuIcon>
+          <HiSelector size={26} />
+        </StyledMenuIcon>
+      )}
       <input type="hidden" name={name} value={value.toString()} />
     </Wrapper>
   );

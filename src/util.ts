@@ -10,6 +10,10 @@ export const compact = (obj: Record<string, any>) => {
 };
 /* eslint-enable */
 
-export const themeGradient = (angle: number, startColor: string, endColor: string) => {
+export const themeGradient = (
+  angle: number,
+  startColor: string,
+  endColor: string
+) => {
   return `linear-gradient(${angle}deg, ${startColor} 0%, ${endColor} 100%)`;
 };
