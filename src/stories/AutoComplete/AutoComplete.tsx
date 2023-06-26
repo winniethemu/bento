@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Option } from './type';
+import { Input, Suggestion, SuggestionList, Wrapper } from './styles';
 
 interface AutoCompleteProps {
-  options: Option[];
+  options: string[];
   onChange?: (value: string) => void;
   onSearch?: (value: string) => void;
-  onSelect?: (value: Option['value'], option?: Option) => void;
+  onSelect?: (value: string) => void;
   placeholder?: string;
   status?: 'success' | 'warning' | 'error';
 }
@@ -27,28 +27,39 @@ export const AutoComplete = ({
     const value = e.target.value;
     setValue(value);
 
-    const results = options.filter((option) => option.label.startsWith(value));
+    const results = options.filter((option) => {
+      option = option.toLowerCase();
+      return option.startsWith(value.toLowerCase());
+    });
     setDisplayedOptions(results);
 
     onChange && onChange(value);
     onSearch && onSearch(value);
   }
 
+  function handleSelect(option: string) {
+    setValue(option);
+    onChange && onChange(option);
+    onSelect && onSelect(option);
+  }
+
   return (
-    <>
-      <input
+    <Wrapper {...props}>
+      <Input
         type="text"
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
       />
       {value && (
-        <ul>
-          {displayedOptions.map(({ label, value }) => (
-            <li key={String(value)}>{label}</li>
+        <SuggestionList>
+          {displayedOptions.map((option) => (
+            <Suggestion key={option} onClick={() => handleSelect(option)}>
+              {option}
+            </Suggestion>
           ))}
-        </ul>
+        </SuggestionList>
       )}
-    </>
+    </Wrapper>
   );
 };

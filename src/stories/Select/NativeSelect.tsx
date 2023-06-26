@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   position: relative;
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
+  font-size: 14px;
   &:hover {
     cursor: pointer;
   }
@@ -28,9 +29,9 @@ const StyledMenu = styled.ol<{ open: boolean }>`
   box-sizing: border-box;
   background-color: #fcf5f5;
   border: 1px solid ${colors.neutral[100]};
-  border-radius: 6px;
+  border-radius: 4px;
   list-style: none;
-  padding: 4px 6px;
+  padding: 6px 4px;
   margin: 0;
   overflow: auto;
   max-height: ${(props) => (props.open ? '480px' : '42px')};
@@ -42,12 +43,11 @@ const StyledMenuItem = styled.li<{
   open: boolean;
   selected: boolean;
 }>`
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 4px;
   font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
-  line-height: 32px;
-  min-width: 200px;
-  padding-left: 6px;
+  line-light: 1.3rem;
+  min-width: 160px;
+  padding: 4px 6px;
   text-align: left;
   background-color: ${(props) => (props.focus ? colors.neutral[100] : '')};
 
