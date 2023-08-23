@@ -24,6 +24,7 @@ interface Image {
 
 export const Carousel = (props: CarouselProps) => {
   const { images } = props;
+  const [index, setIndex] = React.useState(0);
 
   return (
     <Wrapper>
