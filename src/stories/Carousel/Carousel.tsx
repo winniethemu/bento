@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ImageContainer, Wrapper } from './styles';
+import { ImageContainer, NavButton, Scroller, Wrapper } from './styles';
 
 interface CarouselProps {
   images: Array<Image>;
@@ -30,13 +30,31 @@ export const Carousel = (props: CarouselProps) => {
   const { images, width, height } = props;
   const [index, setIndex] = React.useState(0);
 
+  function handlePrevClick() {
+    const nextIndex = (index - 1 + images.length) % images.length;
+    setIndex(nextIndex);
+  }
+
+  function handleNextClick() {
+    const nextIndex = (index + 1) % images.length;
+    setIndex(nextIndex);
+  }
+
   return (
     <Wrapper width={width} height={height}>
-      {images.map(({ src, alt }) => (
-        <ImageContainer key={src} width={width} height={height}>
-          <img src={src} alt={alt} />
-        </ImageContainer>
-      ))}
+      <Scroller position={index} size={width}>
+        {images.map(({ src, alt }) => (
+          <ImageContainer key={src} width={width} height={height}>
+            <img src={src} alt={alt} />
+          </ImageContainer>
+        ))}
+      </Scroller>
+      <NavButton next={false} onClick={handlePrevClick}>
+        <button>Prev</button>
+      </NavButton>
+      <NavButton next={true} onClick={handleNextClick}>
+        <button>Next</button>
+      </NavButton>
     </Wrapper>
   );
 };

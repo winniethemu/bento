@@ -12,6 +12,11 @@ export const Wrapper = styled.div<Props>`
   overflow: hidden;
 `;
 
+export const Scroller = styled.div<{ position: number; size: number }>`
+  display: flex;
+  transform: translate(-${(props) => props.position * props.size}px);
+`;
+
 export const ImageContainer = styled.div<Props>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
@@ -21,4 +26,11 @@ export const ImageContainer = styled.div<Props>`
     height: ${(props) => props.height}px;
     object-fit: contain;
   }
+`;
+
+export const NavButton = styled.div<{ next: boolean }>`
+  position: absolute;
+  height: 100%;
+  width: 50px;
+  ${(props) => (props.next ? 'right: 0' : 'left: 0')};
 `;
