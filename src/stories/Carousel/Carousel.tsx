@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Image, Wrapper } from './styles';
+import { ImageContainer, Wrapper } from './styles';
 
 interface CarouselProps {
   images: Array<Image>;
@@ -22,14 +22,20 @@ interface Image {
   alt?: string;
 }
 
+/**
+ * 1. Virtualization
+ * 2. Scroll snapping
+ */
 export const Carousel = (props: CarouselProps) => {
-  const { images } = props;
+  const { images, width, height } = props;
   const [index, setIndex] = React.useState(0);
 
   return (
-    <Wrapper>
+    <Wrapper width={width} height={height}>
       {images.map(({ src, alt }) => (
-        <Image key={src} src={src} alt={alt} />
+        <ImageContainer key={src} width={width} height={height}>
+          <img src={src} alt={alt} />
+        </ImageContainer>
       ))}
     </Wrapper>
   );

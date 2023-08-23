@@ -1,13 +1,24 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+interface Props {
+  width: number;
+  height: number;
+}
+
+export const Wrapper = styled.div<Props>`
   display: flex;
-  height: 400px;
-  width: 600px;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
   overflow: hidden;
 `;
 
-export const Image = styled.img`
-  height: 400px;
-  width: 600px;
+export const ImageContainer = styled.div<Props>`
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+
+  img {
+    width: ${(props) => props.width}px;
+    height: ${(props) => props.height}px;
+    object-fit: contain;
+  }
 `;
