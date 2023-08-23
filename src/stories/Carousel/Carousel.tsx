@@ -1,4 +1,5 @@
 import React from 'react';
+import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 
 import { ImageContainer, NavButton, Scroller, Wrapper } from './styles';
 
@@ -50,10 +51,10 @@ export const Carousel = (props: CarouselProps) => {
         ))}
       </Scroller>
       <NavButton next={false} onClick={handlePrevClick}>
-        <button>Prev</button>
+        <GoChevronLeft size={36} />
       </NavButton>
       <NavButton next={true} onClick={handleNextClick}>
-        <button>Next</button>
+        <GoChevronRight size={36} />
       </NavButton>
     </Wrapper>
   );

@@ -23,8 +23,20 @@ export const Primary: Story = {
         alt: 'Eclipse in a bottle',
       },
       {
+        src: '/invasion.jpg',
+        alt: 'Invasion',
+      },
+      {
+        src: '/crowded-room.jpg',
+        alt: 'The Crowded Room',
+      },
+      {
         src: '/airfryer.webp',
         alt: 'Air fryer',
+      },
+      {
+        src: '/foundation.jpg',
+        alt: 'Foundation',
       },
       {
         src: '/laundry.webp',
