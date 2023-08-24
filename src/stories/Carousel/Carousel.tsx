@@ -23,10 +23,6 @@ interface Image {
   alt?: string;
 }
 
-/**
- * 1. Virtualization
- * 2. Scroll snapping
- */
 export const Carousel = (props: CarouselProps) => {
   const { images, width, height } = props;
   const [index, setIndex] = React.useState(0);

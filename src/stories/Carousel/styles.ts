@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
-interface Props {
-  width: number;
-  height: number;
-}
-
-export const Wrapper = styled.div<Props>`
+export const Wrapper = styled.div<{ width: number; height: number }>`
   display: flex;
   position: relative;
   width: ${(props) => props.width}px;
@@ -17,9 +12,10 @@ export const Wrapper = styled.div<Props>`
 export const Scroller = styled.div<{ position: number; size: number }>`
   display: flex;
   transform: translate(-${(props) => props.position * props.size}px);
+  transition: transform 0.4s ease-out;
 `;
 
-export const ImageContainer = styled.div<Props>`
+export const ImageContainer = styled.div<{ width: number; height: number }>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
 
