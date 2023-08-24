@@ -9,10 +9,10 @@ export const Wrapper = styled.div<{ width: number; height: number }>`
   border: 1px solid red;
 `;
 
-export const Scroller = styled.div<{ position: number; size: number }>`
+export const Scroller = styled.div<{ size: number }>`
   display: flex;
-  transform: translate(-${(props) => props.position * props.size}px);
-  transition: transform 0.4s ease-out;
+  transform: translate(${(props) => -props.size}px);
+  transition: transform 0.4s ease-in;
 `;
 
 export const ImageContainer = styled.div<{ width: number; height: number }>`

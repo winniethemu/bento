@@ -25,26 +25,35 @@ interface Image {
 
 export const Carousel = (props: CarouselProps) => {
   const { images, width, height } = props;
-  const [index, setIndex] = React.useState(0);
+  const [indices, setIndices] = React.useState([images.length - 1, 0, 1]);
 
   function handlePrevClick() {
-    const nextIndex = (index - 1 + images.length) % images.length;
-    setIndex(nextIndex);
+    const next = indices.slice();
+    const incoming = (indices[0] - 1 + images.length) % images.length;
+    next.unshift(incoming);
+    next.pop();
+    setIndices(next);
   }
 
   function handleNextClick() {
-    const nextIndex = (index + 1) % images.length;
-    setIndex(nextIndex);
+    const next = indices.slice();
+    const incoming = (indices[2] + 1) % images.length;
+    next.push(incoming);
+    next.shift();
+    setIndices(next);
   }
 
   return (
     <Wrapper width={width} height={height}>
-      <Scroller position={index} size={width}>
-        {images.map(({ src, alt }) => (
-          <ImageContainer key={src} width={width} height={height}>
-            <img src={src} alt={alt} />
-          </ImageContainer>
-        ))}
+      <Scroller size={width}>
+        {indices.map((index) => {
+          const { src, alt } = images[index];
+          return (
+            <ImageContainer key={src} width={width} height={height}>
+              <img src={src} alt={alt} />
+            </ImageContainer>
+          );
+        })}
       </Scroller>
       <NavButton next={false} onClick={handlePrevClick}>
         <GoChevronLeft size={36} />
